@@ -7,6 +7,7 @@ import os
 
 import utils
 
+
 config=configparser.ConfigParser()
 config.read("../config.txt")
 

@@ -12,7 +12,6 @@ parser.add_argument('--chunk_num', type=int, required=True)
 args = parser.parse_args()
 
 
-
 chunk_num = args.chunk_num
 
 s_time=time()
