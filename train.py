@@ -67,7 +67,6 @@ model = Model(vocab_size, N, d_model, d_ff, h, d_k, d_v, P_drop, init_std, posit
 
 schedule_fn = lambda step_num: min(step_num/warmup_steps, math.cos(math.pi*(step_num-warmup_steps)/(2*steps_to_attenuate_lr_to_zero)))
 
-
 loss_fn = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.AdamW(model.parameters(), lr=max_lr, weight_decay=weight_decay)
 scheduler = LambdaLR(optimizer, lr_lambda=schedule_fn, verbose=False)

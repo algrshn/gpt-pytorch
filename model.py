@@ -52,10 +52,10 @@ class Decoder(nn.Module):
         self.N=N
         
         for i in range(self.N):
-            if(i==(N-1)):
-                is_last=True
-            else:
-                is_last=False
+            # if(i==(N-1)):
+            #     is_last=True
+            # else:
+            #     is_last=False
             setattr(self, 'block_' + str(i), Dec_block(d_model, d_ff, h, d_k, d_v, P_drop, masking_minus_inf, device))
                 
     def forward(self, decoder_input):

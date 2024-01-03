@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 import configparser
-import sys
+# import sys
 import os
 from transformers import GPT2Tokenizer
 import argparse
