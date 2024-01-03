@@ -16,4 +16,3 @@ def display_progress(batch_num, num_of_batches):
     if(percents == 100.0):
         sys.stdout.write('')
         sys.stdout.flush()
-    
