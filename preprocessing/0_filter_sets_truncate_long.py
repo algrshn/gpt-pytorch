@@ -26,14 +26,6 @@ max_len=int(config.get('preprocessing', 'max_len_words'))
 min_len=int(config.get('preprocessing', 'min_len_words'))
 
     
-# if(chunk_num>11):
-#     chunk_location="data1"
-# else:
-#     chunk_location="data2"
-
-# with open("/media/alex/" + chunk_location + "/GPT2/ThePile/pile/train/" + str(chunk_num) + ".jsonl", "r") as f:
-#     contents = f.readlines()
-
 filename = str(chunk_num) + ".jsonl"    
 with open(os.path.join(path_to_original_data,filename), "r") as f:
     contents = f.readlines()
