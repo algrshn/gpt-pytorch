@@ -22,11 +22,9 @@ path_to_store_preprocessed_data=config.get('preprocessing', 'path_to_store_prepr
 device=config.get('inference', 'device')
 how_many_tokens_to_generate=int(config.get('inference', 'how_many_tokens_to_generate'))
 epochs=int(config.get('train', 'epochs'))
-num_of_chunks_to_use=int(config.get('train', 'num_of_chunks_to_use'))
+chunk_num=int(config.get('inference', 'chunk_num'))
 
 epoch=epochs-1
-# chunk_num=num_of_chunks_to_use-1
-chunk_num=1
 
 P_drop=float(config.get('train', 'P_drop'))
 init_std=float(config.get('train', 'init_std'))
