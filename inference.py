@@ -1,11 +1,10 @@
 import torch
-import torch.nn.functional as F
 import configparser
-# import sys
+import sys
 import os
 from transformers import GPT2Tokenizer
 import argparse
-import numpy as np
+from utils import inference_greedy_search, inference_beam_search
 
 from model import Model
 
@@ -23,6 +22,8 @@ device=config.get('inference', 'device')
 how_many_tokens_to_generate=int(config.get('inference', 'how_many_tokens_to_generate'))
 epochs=int(config.get('train', 'epochs'))
 chunk_num=int(config.get('inference', 'chunk_num'))
+beam_size=int(config.get('inference', 'beam_size'))
+inference_method=config.get('inference', 'inference_method')
 
 epoch=epochs-1
 
@@ -49,32 +50,23 @@ bos_id=tokenizer.convert_tokens_to_ids(tokenizer.bos_token)
 
 ids_list = [bos_id] + ids_list
 
-for k in range(how_many_tokens_to_generate):
-        
-    prompt_onehot_np=np.zeros((1, len(ids_list), vocab_size), dtype=np.float32)
-    
-    for i in range(len(ids_list)):
-        prompt_onehot_np[0,i,ids_list[i]]=1
-        
-    prompt_onehot=torch.from_numpy(prompt_onehot_np).to(device)
-    
-    
-    model = Model(vocab_size, N, d_model, d_ff, h, d_k, d_v, P_drop, init_std, positional_encoding_max_pos, masking_minus_inf, device).cuda(device)
-    
-    
-    checkpoint = torch.load(folder_to_save_state_dicts + '/state_dict_e' + str(epoch) + '_c' + str(chunk_num) +'.pt', map_location=device)
-    model.load_state_dict(checkpoint['model_state_dict'])
-    
-    model.eval()
-    
-    
-    output_pred = model(prompt_onehot)
-    
-    pred_id = torch.argmax(F.softmax(torch.squeeze(output_pred, dim=0), dim=0), dim=0).detach().cpu().numpy()[-1]
-    
-    ids_list.append(pred_id)
-    
-final=tokenizer.decode(ids_list, skip_special_tokens = True)
+model = Model(vocab_size, N, d_model, d_ff, h, d_k, d_v, P_drop, init_std, positional_encoding_max_pos,
+              masking_minus_inf, device).cuda(device)
+
+checkpoint = torch.load(folder_to_save_state_dicts + '/state_dict_e' + str(epoch) + '_c' + str(chunk_num) + '.pt',
+                        map_location=device)
+model.load_state_dict(checkpoint['model_state_dict'])
+
+model.eval()
+
+if(inference_method=="greedy_search"):
+    ids_list_output = inference_greedy_search(model, ids_list, vocab_size, device, how_many_tokens_to_generate)
+elif(inference_method=="beam_search"):
+    ids_list_output = inference_beam_search(model, ids_list, vocab_size, device, how_many_tokens_to_generate, beam_size)
+else:
+    sys.exit("Please, specify a valid inference_method in [inference] section of config file. Valid values are greedy_search and beam_search.")
+
+final = tokenizer.decode(ids_list_output, skip_special_tokens=True)
 
 print(final)
 

@@ -1,12 +1,7 @@
 import configparser
-import json
-import argparse
-import numpy as np
 import pickle
 import os
 import random
-
-import utils
 
 config=configparser.ConfigParser()
 config.read("../config.txt")

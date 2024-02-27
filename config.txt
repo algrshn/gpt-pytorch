@@ -27,10 +27,9 @@ weight_decay=0.01
 [inference]
 device=cuda:0
 chunk_num=16
-how_many_tokens_to_generate=10
+how_many_tokens_to_generate=20
 inference_method=greedy_search
-beam_size=4
-length_penalty=0.6
+beam_size=6
 
 [val]
 data_from_what_chunk_to_use=29
