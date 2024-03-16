@@ -232,19 +232,26 @@ $ python3 inference.py --prompt="The politicians should be working on solutions
 ```
 Below are some model's completions (not cherry picked). The prompts are highlighted in yellow:
 
-<p><span style="background-color: yellow">The politicians should be working on solutions to problems facing common people rather than trying to
-   advance their</span> own interests. The problem is that the politicians are not working on solutions to common people. They are</p>
-<p><span style="background-color: yellow">Make sure you start your day with a good healthy breakfast. Some recent studies show that</span> breakfast is a good source of fiber, which helps you maintain a healthy weight. However,</p>
-<p><span style="background-color: yellow">I was driving my car in heavy rain at 90 mph when suddenly</span> I noticed a small, white, yellow, and orange light coming from the driver's side window.</p>
-<p>Note that although the above examples are random - I didn't try to pick prompts on which the model performs better, the parameter how_many_tokens_to_generate <i>is</i> set to a low value (only 20 tokens), which hides model deficiencies. At higher values of the parameter the model starts repeating itself while generating completions.</p>
-<br>
-<p>Here's how to check perplexity on the validation set:</p>
-<div class="code_box"><code>$ python3 ppl.py</code></div>
-<p>The model achieves perplexity of 19.35.</p>
-<p>Below are the training loss and perplexity plots:</p>
-    <figure>
-    <img src="assets/GPT_training_loss.svg" alt="training loss plot" class="img-fluid">
-    <img src="assets/GPT_ppl.svg" alt="perplexity plot" class="img-fluid">
-    <figcaption>Training loss and perplexity on the validation set as a function of chunks the model was trained on. Each chunk contributes approximately 1.25 bln tokens. In total the model was trained on approximately 21.5 bln tokens.</figcaption>
+<span style="background-color: yellow">The politicians should be working on solutions to problems facing common people rather than trying to
+   advance their</span> own interests. The problem is that the politicians are not working on solutions to common people. They are
+
+<span style="background-color: yellow">Make sure you start your day with a good healthy breakfast. Some recent studies show that</span> breakfast is a good source of fiber, which helps you maintain a healthy weight. However,
+
+<span style="background-color: yellow">I was driving my car in heavy rain at 90 mph when suddenly</span> I noticed a small, white, yellow, and orange light coming from the driver's side window.
+
+Note that although the above examples are random - I didn't try to pick prompts on which the model performs better, the parameter how_many_tokens_to_generate *is* set to a low value (only 20 tokens), which hides model deficiencies. At higher values of the parameter the model starts repeating itself while generating completions.
+
+Here's how to check perplexity on the validation set:
+```
+$ python3 ppl.py
+```
+The model achieves perplexity of 19.35.
+Below are the training loss and perplexity plots:
+
+<figure>
+<img src="imgs_for_readme/GPT_training_loss.svg" alt="training loss plot" height="640">
+<img src="imgs_for_readme/GPT_ppl.svg" alt="perplexity plot" height="640">
+<figcaption>*Training loss and perplexity on the validation set as a function of chunks the model was trained on. Each chunk contributes approximately 1.25 bln tokens. In total the model was trained on approximately 21.5 bln tokens.*</figcaption>
 </figure>
-<p>It is clear from the above plots that the training was stopped while it still was only in its initial stage. One can expect significant improvement with further training. As said above, however, this is what I could get with the existing time and hardware constraints - 2 months with one 8 Gb GPU.</p>
+
+It is clear from the above plots that the training was stopped while it still was only in its initial stage. One can expect significant improvement with further training. As said above, however, this is what I could get with the existing time and hardware constraints - 2 months with one 8 Gb GPU.
