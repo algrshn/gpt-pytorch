@@ -130,7 +130,7 @@ The first GPT paper
 
 <figure>
     <img src="imgs_for_readme//GPT2_detailed.svg" alt="GPT-2 architecture" height="640">
-    <figcaption style="font-size:0.85em;">GPT-2 architecture. Note that layer norm positions are different from the diagram
+    <figcaption style="font-size:0.4em;">GPT-2 architecture. Note that layer norm positions are different from the diagram
       in "Improving Language Understanding by Generative Pre-Training".
        The yellow blocks show training operations, the green show
     how inference differs from training. There's no softmax during training as it is more optimal
