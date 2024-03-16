@@ -60,6 +60,7 @@ These are the subsets I kept (in size descending order):
 <li>BookCorpus2</li>
 <li>HackerNews</li>
 </ul>
+
 They comprise roughly 55% of the full Pile dataset.
 
 Having in mind that I will later impose restrictions on context size in tokens,
