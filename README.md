@@ -132,3 +132,116 @@ The first GPT paper
 
 *GPT-2 architecture. Note that layer norm positions are different from the diagram in "Improving Language Understanding by Generative Pre-Training". The yellow blocks show training operations, the green show how inference differs from training. There's no softmax during training as it is more optimal to feed not normalized logits to PyTorch cross entropy loss function.*
 
+Here's my \[architecture\] section of the config file:
+
+**\[architecture\]**<br>
+N=12<br>
+d_model=768<br>
+d_ff=3072<br>
+h=12<br>
+d_k=64<br>
+d_v=64<br>
+positional_encoding_max_pos=513<br>
+
+The values for the transformer parameters N (number of decoder blocks), d_model (size of the model), d_ff (dimensionality
+of hidden layers in point-wise feed forward nets), h (number of heads for masked multi-headed attention),
+d_k (dimensionality of keys), d_v (dimensionality of values) correspond to the first version of GPT (the same
+parameters as GPT2-small). I also use the same context size as the first GPT. The architecture I used
+(as outlined in the diagram above) incorporates changes introduced
+in the second (GPT-2) paper.
+
+### Training
+
+There are no command line parameters to start training from scratch:
+```
+$ python3 train.py
+```
+The model gets saved after each chunk, meaning there are multiple checkpoints for each epoch.
+To resume training from let's say 26th chunk of 6th epoch use:
+```
+$ python3 train.py --resume_training_starting_with_epoch=6
+--resume_training_starting_with_chunk_num=26
+```
+Here are the training parameters:
+
+**\[train\]**<br>
+device=cuda:0<br>
+epochs=1<br>
+num_of_chunks_to_use=17<br>
+num_workers=2<br>
+prefetch_factor=10<br>
+max_lr=2.5e-4<br>
+start_predicting_from_what_token=8<br>
+P_drop=0.1<br>
+init_std = 0.02<br>
+masking_minus_inf=-1e+6<br>
+disable_pin_memory=False<br>
+folder_to_save_state_dicts=saved_models/run<br>
+warmup_steps=40000<br>
+steps_to_attenuate_lr_to_zero=11500000<br>
+weight_decay=0.01<br>
+
+The parameters epochs=1 and num_of_chunks_to_use=17 specify that training will only run for one epoch and only for
+the first 17 chunks of data (out of 30). I chose these parameter values to fit training in 2 months. Training
+on all the chunks for one epoch would've resulted in 105 days training time, which was over the time
+budget.
+
+The parameter start_predicting_from_what_token tells the loss function to
+start comparing predicted tokens with the ground truth not from the
+very beginning of the document, but only after a specific number of tokens (8 in my case).
+
+The parameters max_lr, warmup_steps, and steps_to_attenuate_lr_to_zero define the learning rate schedule.
+Learning rate changes after each gradient update. It grows linearly from zero to max_lr for the first warmup_steps
+steps (40000 in my case), then it gets attenuated using cosine function:
+
+lr=max_lr·min{step_num/warmup_steps, cos[&#960;·(step_num-warmup_steps)/(2·steps_to_attenuate_lr_to_zero)]}<br><br>
+
+The value of the parameter steps_to_attenuate_lr_to_zero
+is chosen in such a way that by the end of training learning rate drops to ~ 7% of its max value
+(the total number of gradient updates in my case is slightly above 11,000,000).
+
+These are what the rest of the parameters are:
+<ul>
+<li>P_drop - dropout rate;</li>
+<li>weight_decay - weight decay for AdamW optimizer;</li>
+<li><p>num_workers and prefetch_factor - dataloader parameters;</li>
+<li>disable_pin_memory - instruction for dataloader on whether to use pin memory;</li>
+<li>init_std - standard deviation with which the elements of embedding linear transform are initialized;</li>
+<li>masking_minus_inf - approximation of minus infinity to mask previous entries for masked attention;</li>
+<li>folder_to_save_state_dicts - where checkpoints will be saved.</li>
+</ul>
+
+### Inference and results overview
+
+<p>This is how the [inference] section of the config file looks:
+  <div class="code_box"><code>
+    [inference]<br>
+    device=cuda:1<br>
+    chunk_num=16<br>
+    how_many_tokens_to_generate=20<br>
+    inference_method=greedy_search<br>
+    beam_size=4<br>
+  </code></div>
+<p>The parameter chunk_num controls what checkpoint to load at inference (chunk_num=16 means that the model trained on 17 chunks (0 to 16) will be used). The parameter how_many_tokens_to_generate controls the length of generated continuation to the prompt.
+The parameter inference_method can take values "greedy_search" or "beam_search". The latter also requires an additional parameter beam_size which is ignored if inference_method is set to "greedy_search".</p>
+<p>Here is how to run inference with a prompt:</p>
+<div class="code_box"><code>$ python3 inference.py --prompt="The politicians should be working on solutions
+  to problems facing common people rather than trying to advance their"
+</code></div>
+<p>Below are some model's completions (not cherry picked). The prompts are highlighted in yellow:</p>
+<p><span style="background-color: yellow">The politicians should be working on solutions to problems facing common people rather than trying to
+   advance their</span> own interests. The problem is that the politicians are not working on solutions to common people. They are</p>
+<p><span style="background-color: yellow">Make sure you start your day with a good healthy breakfast. Some recent studies show that</span> breakfast is a good source of fiber, which helps you maintain a healthy weight. However,</p>
+<p><span style="background-color: yellow">I was driving my car in heavy rain at 90 mph when suddenly</span> I noticed a small, white, yellow, and orange light coming from the driver's side window.</p>
+<p>Note that although the above examples are random - I didn't try to pick prompts on which the model performs better, the parameter how_many_tokens_to_generate <i>is</i> set to a low value (only 20 tokens), which hides model deficiencies. At higher values of the parameter the model starts repeating itself while generating completions.</p>
+<br>
+<p>Here's how to check perplexity on the validation set:</p>
+<div class="code_box"><code>$ python3 ppl.py</code></div>
+<p>The model achieves perplexity of 19.35.</p>
+<p>Below are the training loss and perplexity plots:</p>
+    <figure>
+    <img src="assets/GPT_training_loss.svg" alt="training loss plot" class="img-fluid">
+    <img src="assets/GPT_ppl.svg" alt="perplexity plot" class="img-fluid">
+    <figcaption>Training loss and perplexity on the validation set as a function of chunks the model was trained on. Each chunk contributes approximately 1.25 bln tokens. In total the model was trained on approximately 21.5 bln tokens.</figcaption>
+</figure>
+<p>It is clear from the above plots that the training was stopped while it still was only in its initial stage. One can expect significant improvement with further training. As said above, however, this is what I could get with the existing time and hardware constraints - 2 months with one 8 Gb GPU.</p>
