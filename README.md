@@ -119,3 +119,11 @@ chunk_num_val=290<br>
 num_of_docs=10000<br>
 
 As with my config, chunk 29 isn't used in training, it can safely be utilized for validation purposes. So, the script takes a number of random batches from the chunk 29 with the total number of documents approximately equal to 10,000, and then packs them into a newly created chunk 290. This chunk will later be used to determine perplexity of the model.
+
+### The model
+
+The first GPT paper
+"Improving Language Understanding by Generative Pre-Training"
+  shows an architecture diagram, while the second "Language Models are Unsupervised Multitask Learners"
+  (GPT-2 paper) just explains in words what changes were introduced in GPT-2. As there is no GPT-2 architecture
+  diagram in the original papers I could refer to, I display it here:
