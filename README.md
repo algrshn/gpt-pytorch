@@ -213,22 +213,25 @@ These are what the rest of the parameters are:
 
 ### Inference and results overview
 
-<p>This is how the [inference] section of the config file looks:
-  <div class="code_box"><code>
-    [inference]<br>
-    device=cuda:1<br>
-    chunk_num=16<br>
-    how_many_tokens_to_generate=20<br>
-    inference_method=greedy_search<br>
-    beam_size=4<br>
-  </code></div>
-<p>The parameter chunk_num controls what checkpoint to load at inference (chunk_num=16 means that the model trained on 17 chunks (0 to 16) will be used). The parameter how_many_tokens_to_generate controls the length of generated continuation to the prompt.
-The parameter inference_method can take values "greedy_search" or "beam_search". The latter also requires an additional parameter beam_size which is ignored if inference_method is set to "greedy_search".</p>
-<p>Here is how to run inference with a prompt:</p>
-<div class="code_box"><code>$ python3 inference.py --prompt="The politicians should be working on solutions
+This is how the \[inference\] section of the config file looks:
+
+*\[inference\]*<br>
+device=cuda:1<br>
+chunk_num=16<br>
+how_many_tokens_to_generate=20<br>
+inference_method=greedy_search<br>
+beam_size=4<br>
+
+The parameter chunk_num controls what checkpoint to load at inference (chunk_num=16 means that the model trained on 17 chunks (0 to 16) will be used). The parameter how_many_tokens_to_generate controls the length of generated continuation to the prompt.
+The parameter inference_method can take values "greedy_search" or "beam_search". The latter also requires an additional parameter beam_size which is ignored if inference_method is set to "greedy_search".
+
+Here is how to run inference with a prompt:
+```
+$ python3 inference.py --prompt="The politicians should be working on solutions
   to problems facing common people rather than trying to advance their"
-</code></div>
-<p>Below are some model's completions (not cherry picked). The prompts are highlighted in yellow:</p>
+```
+Below are some model's completions (not cherry picked). The prompts are highlighted in yellow:
+
 <p><span style="background-color: yellow">The politicians should be working on solutions to problems facing common people rather than trying to
    advance their</span> own interests. The problem is that the politicians are not working on solutions to common people. They are</p>
 <p><span style="background-color: yellow">Make sure you start your day with a good healthy breakfast. Some recent studies show that</span> breakfast is a good source of fiber, which helps you maintain a healthy weight. However,</p>
