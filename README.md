@@ -130,5 +130,5 @@ The first GPT paper
 
 <img src="imgs_for_readme//GPT2_detailed.svg" alt="GPT-2 architecture" height="640" />
 
-*GPT-2* architecture. Note that layer norm positions are different from the diagram in "Improving Language Understanding by Generative Pre-Training". The yellow blocks show training operations, the green show how inference differs from training. There's no softmax during training as it is more optimal to feed not normalized logits to PyTorch cross entropy loss function.
+*GPT-2 architecture. Note that layer norm positions are different from the diagram in "Improving Language Understanding by Generative Pre-Training". The yellow blocks show training operations, the green show how inference differs from training. There's no softmax during training as it is more optimal to feed not normalized logits to PyTorch cross entropy loss function.*
 
