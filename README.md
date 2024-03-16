@@ -215,7 +215,7 @@ These are what the rest of the parameters are:
 
 This is how the \[inference\] section of the config file looks:
 
-*\[inference\]*<br>
+**\[inference\]**<br>
 device=cuda:1<br>
 chunk_num=16<br>
 how_many_tokens_to_generate=20<br>
