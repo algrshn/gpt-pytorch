@@ -194,7 +194,7 @@ The parameters max_lr, warmup_steps, and steps_to_attenuate_lr_to_zero define th
 Learning rate changes after each gradient update. It grows linearly from zero to max_lr for the first warmup_steps
 steps (40000 in my case), then it gets attenuated using cosine function:
 
-lr=max_lr·min{step_num/warmup_steps, cos[&#960;·(step_num-warmup_steps)/(2·steps_to_attenuate_lr_to_zero)]}<br><br>
+*lr=max_lr·min{step_num/warmup_steps, cos[&#960;·(step_num-warmup_steps)/(2·steps_to_attenuate_lr_to_zero)]}*<br>
 
 The value of the parameter steps_to_attenuate_lr_to_zero
 is chosen in such a way that by the end of training learning rate drops to ~ 7% of its max value
