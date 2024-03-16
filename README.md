@@ -247,10 +247,10 @@ $ python3 ppl.py
 The model achieves perplexity of 19.35.
 Below are the training loss and perplexity plots:
 
-<figure>
 <img src="imgs_for_readme/GPT_training_loss.svg" alt="training loss plot" height="640">
 <img src="imgs_for_readme/GPT_ppl.svg" alt="perplexity plot" height="640">
-<figcaption>*Training loss and perplexity on the validation set as a function of chunks the model was trained on. Each chunk contributes approximately 1.25 bln tokens. In total the model was trained on approximately 21.5 bln tokens.*</figcaption>
-</figure>
+
+*Training loss and perplexity on the validation set as a function of chunks the model was trained on. Each chunk contributes approximately 1.25 bln tokens. In total the model was trained on approximately 21.5 bln tokens.*
+
 
 It is clear from the above plots that the training was stopped while it still was only in its initial stage. One can expect significant improvement with further training. As said above, however, this is what I could get with the existing time and hardware constraints - 2 months with one 8 Gb GPU.
