@@ -128,11 +128,11 @@ The first GPT paper
   (GPT-2 paper) just explains in words what changes were introduced in GPT-2. As there is no GPT-2 architecture
   diagram in the original papers I could refer to, I display it here:
 
-<figure>
-    <img src="imgs_for_readme//GPT2_detailed.svg" alt="GPT-2 architecture" height="640">
-    <figcaption>*GPT-2 architecture. Note that layer norm positions are different from the diagram
-      in "Improving Language Understanding by Generative Pre-Training".
-       The yellow blocks show training operations, the green show
-    how inference differs from training. There's no softmax during training as it is more optimal
-    to feed not normalized logits to PyTorch cross entropy loss function.*SS</figcaption>
-</figure>
+
+<img src="imgs_for_readme//GPT2_detailed.svg" alt="GPT-2 architecture" height="640">
+*GPT-2 architecture. Note that layer norm positions are different from the diagram
+  in "Improving Language Understanding by Generative Pre-Training".
+   The yellow blocks show training operations, the green show
+how inference differs from training. There's no softmax during training as it is more optimal
+to feed not normalized logits to PyTorch cross entropy loss function.*
+
