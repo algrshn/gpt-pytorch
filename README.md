@@ -74,3 +74,48 @@ $ python3 0_filter_sets_truncate_long.py --chunk_num=0
 ```
 The command line parameter --chunk_num can take values from 0 to 29 and corresponds to different
   original jsonl files (chunks).
+
+#### Step 1 - save tokenizer
+```
+$ python3 1_save_tokenizer.py
+```
+This simply downloads GPT-2 tokenizer, adds BOS token, and saves the tokenizer to the disk.
+The vocabulary size is 50258.
+
+#### Step 2 - tokenize
+```
+$ python3 2_tokenize.py --chunk_num=0
+```
+This tokenizes all documents. Documents with number of tokens higher than max_len_tokens (512 in my case)
+get truncated.
+
+#### Step 3 - form batches
+```
+$ python3 3_form_batches.py --chunk_num=0
+```
+To reduce the load on the runtime dataloader I form batches in advance, during the preprocessing stage.
+I do not have a fixed number of documents in a batch, instead
+I impose a limit on how many tokens in total there could be. This limit is controlled by the
+parameter max_num_of_tokens_in_batch (2100 in my case - can't go any higher with a 8GB GPU).
+When forming a batch I only use documents of the same
+size (so, there is never a need for padding) and I try to get as close to the tokens limit as possible.
+This way batches of shorter documents end up having larger batch sizes, and batches of longer documents have
+smaller batch sizes. The longest documents have 513 tokens (BOS token + 512 regular vocabulary tokens),
+which translates into a batch size of 4.
+
+With this approach, at train time I, of course, can only shuffle order of batches, I can't change
+ the batches composition. I reckoned that shuffling order of batches within each chunk and order of chunks within each epoch
+ should be good enough. And since I could only run for one epoch it didn't matter anyway.
+
+#### Step 4 - create a validation chunk
+```
+$ python3 4_create_val_chunk.py
+```
+Although it is a preprocessing script, it uses parameters from the \[val\] sections of config, which in my case looks like this:
+
+**\[val\]**<br>
+data_from_what_chunk_to_use=29<br>
+chunk_num_val=290<br>
+num_of_docs=10000<br>
+
+As with my config, chunk 29 isn't used in training, it can safely be utilized for validation purposes. So, the script takes a number of random batches from the chunk 29 with the total number of documents approximately equal to 10,000, and then packs them into a newly created chunk 290. This chunk will later be used to determine perplexity of the model.
