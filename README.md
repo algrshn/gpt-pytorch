@@ -39,3 +39,37 @@ max_len_words=256<br>
 min_len_words=16<br>SS
 max_len_tokens=512<br>
 max_num_of_tokens_in_batch=2100<br>
+
+Below is a description of preprocessing scripts.
+
+#### Step 0 - filter and truncate
+
+As my computational resourses were
+extremely limited, I decided not even to attempt to train the model on anything but plain English. So, I
+filtered out subsets which are heavy on code examples, math equations, chemical formulas, etc.
+The parameter pile_sets_to_use in the config file controls what subsets will be used.
+These are the subsets I kept (in size descending order):
+<ul>
+<li>Pile-CC</li>
+<li>Books3</li>
+<li>OpenWebText2</li>
+<li>FreeLaw</li>
+<li>PubMed Abstracts</li>
+<li>Gutenberg (PG-19)</li>
+<li>Wikipedia (en)</li>
+<li>BookCorpus2</li>
+<li>HackerNews</li>
+</ul>
+They comprise roughly 55% of the full Pile dataset.
+
+Having in mind that I will later impose restrictions on context size in tokens,
+I truncated documents with more than max_len_words (256 in my case) words, which was a substantial cut.
+I also threw away all documents which had less than min_len_words (16 in my case) words in them (there were
+very few of those).
+
+Here's how to run step 0:
+
+<div class="code_box"><code>$ python3 0_filter_sets_truncate_long.py --chunk_num=0</code></div>
+
+The command line parameter --chunk_num can take values from 0 to 29 and corresponds to different
+  original jsonl files (chunks).
