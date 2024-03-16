@@ -30,3 +30,11 @@ other info, which I'm not using) document text and subset name this document bel
 
 My preprocessing procedure consists of 4 steps. Scripts corresponding to these steps use the \[preprocessing\]
 section of the config file, which looks like that:
+
+path_to_original_data=/media/alex/data2/GPT2_data/ThePile/pile/train/<br>
+path_to_store_preprocessed_data=/media/alex/data1/GPT2_data/data/<br>
+pile_sets_to_use=FreeLaw|HackerNews|Books3|OpenWebText2|Gutenberg (PG-19)|Pile-CC|BookCorpus2|Wikipedia (en)|PubMed Abstracts<br>
+max_len_words=256<br>
+min_len_words=16<br>SS
+max_len_tokens=512<br>
+max_num_of_tokens_in_batch=2100<br>
