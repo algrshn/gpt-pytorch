@@ -129,7 +129,7 @@ The first GPT paper
   diagram in the original papers I could refer to, I display it here:
 
 <figure>
-    <img src="assets/GPT2_detailed.svg" alt="GPT-2 architecture" height="480">
+    <img src="imgs_for_readme//GPT2_detailed.svg" alt="GPT-2 architecture" height="480">
     <figcaption>GPT-2 architecture. Note that layer norm positions are different from the diagram
       in "Improving Language Understanding by Generative Pre-Training".
        The yellow blocks show training operations, the green show
