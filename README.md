@@ -204,7 +204,7 @@ These are what the rest of the parameters are:
 <ul>
 <li>P_drop - dropout rate;</li>
 <li>weight_decay - weight decay for AdamW optimizer;</li>
-<li><p>num_workers and prefetch_factor - dataloader parameters;</li>
+<li>num_workers and prefetch_factor - dataloader parameters;</li>
 <li>disable_pin_memory - instruction for dataloader on whether to use pin memory;</li>
 <li>init_std - standard deviation with which the elements of embedding linear transform are initialized;</li>
 <li>masking_minus_inf - approximation of minus infinity to mask previous entries for masked attention;</li>
