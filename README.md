@@ -230,14 +230,13 @@ Here is how to run inference with a prompt:
 $ python3 inference.py --prompt="The politicians should be working on solutions
   to problems facing common people rather than trying to advance their"
 ```
-Below are some model's completions (not cherry picked). The prompts are highlighted in yellow:
+Below are some model's completions (not cherry picked). The prompts are highlighted in bold:
 
-<span style="background-color: yellow">The politicians should be working on solutions to problems facing common people rather than trying to
-   advance their</span> own interests. The problem is that the politicians are not working on solutions to common people. They are
+**The politicians should be working on solutions to problems facing common people rather than trying to advance their** own interests. The problem is that the politicians are not working on solutions to common people. They are
 
-<span style="background-color: yellow">Make sure you start your day with a good healthy breakfast. Some recent studies show that</span> breakfast is a good source of fiber, which helps you maintain a healthy weight. However,
+**Make sure you start your day with a good healthy breakfast. Some recent studies show that** breakfast is a good source of fiber, which helps you maintain a healthy weight. However,
 
-<span style="background-color: yellow">I was driving my car in heavy rain at 90 mph when suddenly</span> I noticed a small, white, yellow, and orange light coming from the driver's side window.
+**I was driving my car in heavy rain at 90 mph when suddenly** I noticed a small, white, yellow, and orange light coming from the driver's side window.
 
 Note that although the above examples are random - I didn't try to pick prompts on which the model performs better, the parameter how_many_tokens_to_generate *is* set to a low value (only 20 tokens), which hides model deficiencies. At higher values of the parameter the model starts repeating itself while generating completions.
 
