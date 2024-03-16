@@ -69,8 +69,8 @@ I also threw away all documents which had less than min_len_words (16 in my case
 very few of those).
 
 Here's how to run step 0:
-
-<div class="code_box"><code>$ python3 0_filter_sets_truncate_long.py --chunk_num=0</code></div>
-
+```
+$ python3 0_filter_sets_truncate_long.py --chunk_num=0
+```
 The command line parameter --chunk_num can take values from 0 to 29 and corresponds to different
   original jsonl files (chunks).
